@@ -33,8 +33,14 @@ var iwoEditor = new iwo(editorDiv,configs);
 ## Contributors
 
 ```
-liulyliu
-xiaojue
+project  : iWo
+ repo age : 5 days
+ active   : 2 days
+ commits  : 12
+ files    : 12
+ authors  : 
+    11  xiaojue                 91.7%
+     1  LIU LUYING              8.3%
 ```
 
 ## License
