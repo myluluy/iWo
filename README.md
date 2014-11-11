@@ -11,6 +11,7 @@ It supported IE6-11 and Chrome,Firefox,Safari latest version.
 
 ```html
 <script src="iwo.core.min.js"></script>
+<div id="editor"></div>
 ```
 
 ```javascript
