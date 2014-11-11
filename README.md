@@ -7,6 +7,8 @@ You can very easy to write plugin for iWoEditor,we also provide many basic plugi
 
 It supported IE6-11 and Chrome,Firefox,Safari latest version.
 
+![editor](public/editor.png)
+
 ## Usage
 
 ```html
@@ -29,10 +31,6 @@ var iwoEditor = new iwo(editorDiv,configs);
 ## Api
 
 [Methods](docs/methods.md),[Attribute](docs/attribues.md),[Events](docs/events.md)
-
-## Print screen
-
-![editor](public/editor.png)
 
 ## Contributors
 
