@@ -82,6 +82,7 @@ var iwoEditor = new iwo(editorDiv,configs);
 ##### iwo.base
 ##### iwo.version
 ##### iwo.content
+##### iwo.select
 ##### iwo.focused
 ##### iwo.width
 ##### iwo.disabled
