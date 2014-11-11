@@ -30,6 +30,10 @@ var iwoEditor = new iwo(editorDiv,configs);
 
 [Methods](docs/methods.md),[Attribute](docs/attribues.md),[Events](docs/events.md)
 
+## Print screen
+
+![editor](public/editor.png)
+
 ## Contributors
 
 ```
