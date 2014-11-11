@@ -89,6 +89,7 @@ var iwoEditor = new iwo(editorDiv,configs);
 ##### iwo.el
 ##### iwo.parent
 ##### iwo.extra
+##### iwo.filter
 
 ### Iwo Event
 -----
