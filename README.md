@@ -45,4 +45,4 @@ project  : iWo
 
 ## License
 
-[WTFPL](LICENSE.md)
+[WTFPL](LICENSE)
