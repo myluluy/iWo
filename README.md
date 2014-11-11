@@ -7,7 +7,9 @@ You can very easy to write plugin for iWoEditor,we also provide many basic plugi
 
 It supported IE6-11 and Chrome,Firefox,Safari latest version.
 
+--
 ![editor](public/editor.png)
+--
 
 ## Usage
 
