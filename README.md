@@ -25,6 +25,86 @@ var configs = {
 var iwoEditor = new iwo(editorDiv,configs);
 ```
 
+## Api
+
+### Iwo Methods
+
+#### iwo.help
+#### iwo.getHtml
+#### iwo.setHtml
+#### iwo.getText
+#### iwo.setText
+#### iwo.getCursor
+#### iwo.setCursor
+#### iwo.addSelect
+#### iwo.getSelectedHtml
+#### iwo.setSelectedHtml
+#### iwo.focus
+#### iwo.blur
+#### iwo.sync
+#### iwo.reset
+#### iwo.$
+#### iwo.bindEvent
+#### iwo.removeEvent
+#### iwo.onecEvent
+#### iwo.on
+#### iwo.off
+#### iwo.trigger
+#### iwo.get
+#### iwo.set
+#### iwo.getPlugin
+#### iwo.setPlugin
+#### iwo.render
+#### iwo.destory
+#### iwo.extend
+#### iwo.execCommand
+#### iwo.hasCommand
+#### iwo.addStyle
+#### iwo.removeStyle
+#### iwo.addLink
+#### iwo.removeLink
+#### iwo.insertHtml
+#### iwo.insertNode
+#### iwo.removeNode
+#### iwo.hide
+#### iwo.show
+#### iwo.disabled
+#### iwo.history
+
+### Iwo Attribute
+
+#### iwo.themePath
+#### iwo.theme
+#### iwo.pluginPath
+#### iwo.plugins
+#### iwo.base
+#### iwo.version
+#### iwo.content
+#### iwo.focused
+#### iwo.width
+#### iwo.disabled
+#### iwo.el
+#### iwo.parent
+#### iwo.extra
+
+### Iwo Event
+
+#### before:Method|attr
+#### after:Medthod|attr
+#### ready
+#### selectChange
+#### contentChange
+#### show
+#### hide
+#### destory
+#### render
+#### focus
+#### blur
+#### pluginInit
+#### pluginBefore
+#### pluginAfter
+#### paset
+
 ## Contributors
 
 ```
