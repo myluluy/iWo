@@ -28,7 +28,7 @@ var iwoEditor = new iwo(editorDiv,configs);
 ## Api
 
 ### Iwo Methods
-----
+-----
 
 ##### iwo.help
 ##### iwo.getHtml
@@ -73,7 +73,7 @@ var iwoEditor = new iwo(editorDiv,configs);
 ##### iwo.history
 
 ### Iwo Attribute
-----
+-----
 
 ##### iwo.themePath
 ##### iwo.theme
@@ -90,7 +90,7 @@ var iwoEditor = new iwo(editorDiv,configs);
 ##### iwo.extra
 
 ### Iwo Event
-----
+-----
 
 ##### before:Method|attr
 ##### after:Medthod|attr
