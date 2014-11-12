@@ -39,14 +39,20 @@ var iwoEditor = iwo.create(editorDiv,configs);
 ## Contributors
 
 ```
-project  : iWo
- repo age : 5 days
- active   : 2 days
- commits  : 12
- files    : 12
+ project  : iWo
+ repo age : 6 days
+ active   : 3 days
+ commits  : 27
+ files    : 20
  authors  : 
-    11  xiaojue                 91.7%
-     1  LIU LUYING              8.3%
+    26  Xiaojue                 96.3%
+     1  LIU LUYING              3.7%
+```
+
+## Git hooks 
+
+```bash
+./setup-hooks.sh
 ```
 
 ## License
