@@ -1,3 +1,3 @@
-loader._register('mods/dom',[],function(require){
+iwo.register('mods/dom',[],function(require){
     return 'dom';
 });

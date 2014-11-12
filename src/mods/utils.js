@@ -1,3 +1,3 @@
-loader._register('mods/utils',[],function(require){
+iwo.register('mods/utils',[],function(require){
     return 'utils';
 });
