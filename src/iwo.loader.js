@@ -6,6 +6,7 @@
 (function(win, doc, undef) {
 
   var cache = {},
+
   loadings = {},
   queue = [],
   scripts = doc.getElementsByTagName('script'),
