@@ -16,7 +16,7 @@ It supported IE6-11 and Chrome,Firefox,Safari latest version.
 ## Usage
 
 ```html
-<script src="iwo.core.min.js"></script>
+<script src="iwo.loader.min.js"></script>
 <div id="editor"></div>
 ```
 
@@ -29,7 +29,7 @@ var configs = {
   plugins:iwo.base
   //plugins:'bold,italic,underline,justify,color,link,toolbar,image,video,music,http://my.domain/path/to/someplugin.js'
 };
-var iwoEditor = new iwo(editorDiv,configs);
+var iwoEditor = iwo.create(editorDiv,configs);
 ```
 
 ## Api

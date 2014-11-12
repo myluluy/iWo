@@ -1,6 +1,8 @@
 ### Iwo Methods
 -----
-
+##### iwo.register
+##### iwo.run
+##### iwo.create
 ##### iwo.help
 ##### iwo.getHtml
 ##### iwo.setHtml

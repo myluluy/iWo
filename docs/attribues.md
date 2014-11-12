@@ -1,6 +1,7 @@
 ### Iwo Attribute
 -----
 
+##### iwo.core
 ##### iwo.themePath
 ##### iwo.theme
 ##### iwo.pluginPath
