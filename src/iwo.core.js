@@ -51,8 +51,13 @@
           //script.parentNode.removeChild(script);
           script = undef;
           loadings[id] = 2;
-          if (self.checkLoading()) self.compile();
-          else self.loadDeps();
+          if (self.checkLoading()) {
+            while (queue.length) {
+              queue.shift().compile();
+            }
+          } else {
+            self.loadDeps();
+          }
         }
       };
       script.src = basepath + id + '.js';
@@ -69,6 +74,7 @@
     },
     _run: function(path) {
       var mod = cache[path];
+      queue.push(mod);
       mod.loadDeps();
     }
   };
@@ -83,13 +89,13 @@ loader._register('iwo.core', ['mods/help'], function(require) {
 });
 
 loader._register('iwo.a', ['mods/utils'], function(require) {
-  var help = require('mods/utils');
-  console.log(help);
+  var utils = require('mods/utils');
+  console.log(utils);
 });
 
 loader._register('iwo.b', ['mods/dom'], function(require) {
-  var help = require('mods/dom');
-  console.log(help);
+  var dom = require('mods/dom');
+  console.log(dom);
 });
 
 loader._run('iwo.core');
