@@ -18,13 +18,14 @@
     this.factory = factory ? factory : deps;
     utils.addLoading(this.deps);
     cache[path] = this;
+    loadings[path] = 2;
   }
 
   var utils = {
     addLoading: function(deps) {
       for (var i = 0; i < deps.length; i++) {
-        var id = deps[i];
-        if (!loadings[id]) loadings[id] = 0;
+        var id = deps[i],stat = loadings[id];
+        loadings[id] = stat ? stat : 0;
       }
     },
     _r: function(id) {
@@ -39,7 +40,7 @@
     },
     loadDeps: function() {
       for (var id in loadings){
-        if (loadings[id] === 0) utils.loadMod(id);
+        if (loadings[id] < 1) utils.loadMod(id);
       }
     },
     loadScript: function(path, cb) {
@@ -59,7 +60,6 @@
     loadMod: function(id) {
       loadings[id] = 1;
       utils.loadScript(id, function() {
-        loadings[id] = 2;
         if (utils.checkLoading()) {
           while (queue.length) {
             cache[queue.shift()].compile();
