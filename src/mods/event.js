@@ -86,7 +86,7 @@ iwo.define('mods/event', ['mods/utils'], function(require) {
           }
         }
 
-      },
+      }
 
     }
 
