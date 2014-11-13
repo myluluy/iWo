@@ -1,6 +1,6 @@
 ### Iwo Methods
 -----
-##### iwo.register
+##### iwo.define
 ##### iwo.run
 ##### iwo.create
 ##### iwo.help
