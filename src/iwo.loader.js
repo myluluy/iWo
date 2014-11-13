@@ -33,8 +33,8 @@
       return mod.exports || (mod.exports = mod.compile());
     },
     checkLoading: function() {
-      for (var i in loadings) {
-        if (loadings[i] < 2) return false;
+      for (var id in loadings) {
+        if (loadings[id] < 2) return false;
       }
       return true;
     },
