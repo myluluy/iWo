@@ -12,6 +12,9 @@ iwo.define('mods/utils', function(require) {
 
   var utils = {
     noop: function() {},
+    Args2Array: function(args) {
+      return Arr.slice.apply(args);
+    },
     keys: Obj.keys ? Obj.keys: function(o) {
       var ret = [];
       for (var p in o) {
@@ -51,10 +54,10 @@ iwo.define('mods/utils', function(require) {
     isString: function(v) {
       return toString.call(v) === '[object String]';
     },
-    isFunction: function() {
+    isFunction: function(v) {
       return toString.call(v) === '[object Function]';
     },
-    isArray: function() {
+    isArray: function(v) {
       return toString.call(v) === '[object Array]';
     },
     isObject: function(v) {
@@ -98,7 +101,7 @@ iwo.define('mods/utils', function(require) {
       if (!src || ! utils.isObject(src) || utils.isFunction(src)) {
         return src;
       }
-      if (isNode(src)) {
+      if (utils.isNode(src)) {
         return src.cloneNode(true);
       }
       if (src instanceof Date) {
@@ -148,7 +151,7 @@ iwo.define('mods/utils', function(require) {
         });
 
         if (safe.implement) {
-          collection = utils.implement(safe.implement);
+          collection = utils.implement(safe.implement, blackList);
         } else {
           collection = utils.extend(collection, safe);
         }
@@ -157,5 +160,7 @@ iwo.define('mods/utils', function(require) {
       return collection;
     }
   };
+
   return utils;
 });
+
