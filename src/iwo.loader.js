@@ -14,9 +14,9 @@
 
   function Module(path, deps, factory) {
     this.id = path;
-    this.deps = deps;
-    this.factory = factory;
-    utils.addLoading(deps);
+    this.deps = factory ? deps : [];
+    this.factory = factory ? factory : deps;
+    utils.addLoading(this.deps);
     cache[path] = this;
   }
 

@@ -1,4 +1,3 @@
-iwo.define('mods/dom',[],function(require){
-    console.log(123);
+iwo.define('mods/dom',function(require){
     return 'dom';
 });

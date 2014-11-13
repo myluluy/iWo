@@ -1,3 +1,3 @@
-iwo.define('mods/utils',[],function(require){
+iwo.define('mods/utils',function(require){
     return 'utils';
 });
