@@ -4,7 +4,7 @@
  * @fileoverview core for iwo
  */
 iwo.define('iwo.core',['mods/dom','mods/utils','mods/help'],function(require){
-  var help = require('mods/help');
   console.log('iwo',help,iwo);
+  var help = require('mods/help');
 });
 
