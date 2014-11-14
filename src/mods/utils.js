@@ -64,7 +64,7 @@ iwo.define('mods/utils', function(require) {
       return v === Obj(v);
     },
     isNode: function(v) {
-      return v.nodeType && ('cloneNode' in v);
+      return v.nodeType && utils.indexOf([2, 11, 9], v.nodeType) && ('cloneNode' in v);
     },
     indexOf: Arr.indexOf ? function(arr, selector) {
       return arr.indexOf(selector);
