@@ -7,15 +7,15 @@
 iwo.define('mods/utils', function(require) {
 
   var Arr = Array.prototype,
-  Obj = Object,
-  toString = Obj.prototype.toString;
+    Obj = Object,
+    toString = Obj.prototype.toString;
 
   var utils = {
     noop: function() {},
     Args2Array: function(args) {
       return Arr.slice.apply(args);
     },
-    keys: Obj.keys ? Obj.keys: function(o) {
+    keys: Obj.keys ? Obj.keys : function(o) {
       var ret = [];
       for (var p in o) {
         if (o.hasOwnProperty(p)) ret.push(p);
@@ -30,12 +30,12 @@ iwo.define('mods/utils', function(require) {
     },
     forEach: Arr.forEach ? function(arr, fn) {
       arr.forEach(fn);
-    }: function(arr, fn) {
+    } : function(arr, fn) {
       for (var i = 0; i < arr.length; i++) fn(arr[i], i, arr);
     },
     filter: Arr.filter ? function(arr, fn) {
       return arr.filter(fn);
-    }: function(arr, fn) {
+    } : function(arr, fn) {
       var ret = [];
       utils.forEach(arr, function(item, i, arr) {
         if (fn(item, i, arr)) ret.push(item);
@@ -44,7 +44,7 @@ iwo.define('mods/utils', function(require) {
     },
     map: Arr.map ? function(arr, fn) {
       return arr.map(fn);
-    }: function(arr, fn) {
+    } : function(arr, fn) {
       var ret = [];
       utils.forEach(arr, function(item, i, arr) {
         ret.push(fn(item, i, arr));
@@ -68,11 +68,11 @@ iwo.define('mods/utils', function(require) {
     },
     indexOf: Arr.indexOf ? function(arr, selector) {
       return arr.indexOf(selector);
-    }: function(arr, selector) {
+    } : function(arr, selector) {
       for (var i = 0; i < arr.length; i++) {
         if (arr[i] === selector) return i;
       }
-      return - 1;
+      return -1;
     },
     extend: function(src, target, preserve) {
       var key;
@@ -90,7 +90,7 @@ iwo.define('mods/utils', function(require) {
     mixin: function(dest, src, copyFunc) {
       var empty = {};
       utils.each(src, function(s, name) {
-        if (! (name in dest) || (dest[name] !== s && (!(name in empty) || empty[name] !== s))) {
+        if (!(name in dest) || (dest[name] !== s && (!(name in empty) || empty[name] !== s))) {
           dest[name] = copyFunc ? copyFunc(s) : s;
         }
       });
@@ -98,7 +98,7 @@ iwo.define('mods/utils', function(require) {
     },
     clone: function(src) {
       var r;
-      if (!src || ! utils.isObject(src) || utils.isFunction(src)) {
+      if (!src || !utils.isObject(src) || utils.isFunction(src)) {
         return src;
       }
       if (utils.isNode(src)) {
@@ -158,9 +158,47 @@ iwo.define('mods/utils', function(require) {
 
       });
       return collection;
+    },
+    ichotomySearch: function(arr, condition, greedy) { //TODO
+      var len = arr.length,
+        res,
+        _res = null,
+        currStart = 0,
+        currEnd = len - 1,
+        curr = null,
+        cond;
+      while (res === undefined && currStart <= currEnd) {
+        curr = currStart === currEnd ? currStart : Math.ceil((currEnd + currStart) / 2);
+        cond = condition(curr, arr[curr]);
+        switch (cond) {
+          case -1:
+            if (currStart !== curr) {
+              currStart = curr;
+            } else {
+              res = null;
+            }
+            break;
+          case 0:
+            res = arr[curr];
+            break;
+          case 1:
+            if (currEnd !== curr) {
+              currEnd = curr;
+            } else {
+              res = null;
+            }
+            break;
+          default:
+            res = null;
+            break;
+
+        }
+      }
+      _res = null;
+      return res || null;
     }
+
   };
 
   return utils;
 });
-
