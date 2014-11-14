@@ -65,7 +65,7 @@ iwo.register('mods/range/base', [], function(require) {
       return this;
     }
 
-  }
+  };
 
 
 
