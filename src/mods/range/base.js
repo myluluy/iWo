@@ -26,6 +26,7 @@ iwo.register('mods/range/base', [], function(require) {
      * */
     this.doc = doc || document;
 
+
     this.collapsed = null;
 
   }
