@@ -92,8 +92,18 @@ iwo.register('mods/range/base', [], function(require) {
       ec = range.ec,
       eo = range.eo;
     collapsed = range.collapsed;
-    return range;
+    if (sc.nodeType === 3 && so >= sc.nodeValue.length) {
+      //TODO:
+    }
 
+    if (collapsed) {
+      range.collapse(true);
+    } else {
+      if (ec.nodeType === 3 && eo === 0) {
+        //TODO:
+      }
+    }
+    return range;
   }
 
   /*
@@ -108,7 +118,6 @@ iwo.register('mods/range/base', [], function(require) {
     fixRange(range);
     return range;
   }
-
   return Range;
 
 });
