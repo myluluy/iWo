@@ -4,7 +4,7 @@
  * @fileoverview range  for iwo
  */
 iwo.register('mods/range/base', [], function(require) {
-  function Range(doc) {
+  function Base(doc) {
 
     /*
      *  @property range.startContainer, range.endContainer,
@@ -32,12 +32,12 @@ iwo.register('mods/range/base', [], function(require) {
   }
 
 
-  Range.prototype = {
+  Base.prototype = {
 
     /*
      * @constructor
      * */
-    constructor: Range,
+    constructor: Base,
 
     setSc: function(container, offset) {
       updateRange(this, container, offset, true);
@@ -64,6 +64,13 @@ iwo.register('mods/range/base', [], function(require) {
       range[ofst[t1]] = range[ofst[t2]];
       this.collapsed = true;
       return this;
+    },
+
+    cloneRange: function() {
+      var range = new Base(this.doc);
+      range.setSc(this.sc, this.so);
+      range.setEc(this.ec, this.eo);
+      return range;
     }
 
   };
@@ -118,6 +125,6 @@ iwo.register('mods/range/base', [], function(require) {
     fixRange(range);
     return range;
   }
-  return Range;
+  return Base;
 
 });
