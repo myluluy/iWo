@@ -9,55 +9,67 @@ iwo.define('mods/event', ['mods/class', 'mods/utils'], function(require) {
   var Class = require('mods/class');
   var utils = require('mods/utils');
 
+  function splitEvents(names, cb) {
+    utils.forEach(names.split(','), cb);
+  }
+
   var Event = new Class({
     initialize: function() {
       this.events = {};
     },
     trigger: function(name, args, scope) {
       var self = this,
-      cbs = this.events[name];
+      events = this.events,
+      cbs = events[name] ? events[name] : [];
+      cbs._args = args;
+      cbs._scope = scope || self;
+      cbs._trigged = true;
       for (var i = 0; i < cbs.length; i++) {
         var cb = cbs[i];
         if (utils.isFunction(cb)) {
-          cb._args = args;
-          cb._scope = scope || self;
-          if (cb.apply(cb._scope, cb._args) === false) break;
+          if (cb.apply(cbs._scope, cbs._args) === false) break;
         }
       }
+      events[name] = cbs;
     },
-    on: function(name, cb) {
-      var events = this.events;
-      if (events[name]) {
-        events[name].push(cb);
-      } else {
-        events[name] = [cb];
-      }
+    on: function(names, cb) {
+      var self = this;
+      splitEvents(names, function(name) {
+        var events = self.events;
+        if (events[name]) {
+          events[name].push(cb);
+        } else {
+          events[name] = [cb];
+        }
+      });
     },
-    once: function(name, cb) {
-      var self = this,
-      once = function() {
-        var cbs = self.events[name],
-        cbIndex = utils.indexOf(cbs, once);
-        if (utils.isFunction(cb)) cb.apply(self, utils.Args2Array(arguments));
-        cbs.split(cbIndex, 1);
-      };
-      this.on(name, once);
-    },
-    live: function(name, cb) {
-      var self = this,
-      fired, live = function() {
-        if (!fired) {
+    once: function(names, cb) {
+      var self = this;
+      splitEvents(names, function(name) {
+        var once = function() {
           var cbs = self.events[name],
-          cbIndex = utils.indexOf(cbs, live);
-          for (var i = 0; i < cbIndex; i++) {
-            var fn = cbs[i];
-            fn.apply(fn._scope, fn._args);
-          }
-          fired = true;
+          cbIndex = utils.indexOf(cbs, once);
+          if (utils.isFunction(cb)) cb.apply(cbs._scope, cbs._args);
+          cbs.split(cbIndex, 1);
+        };
+        self.on(name, once);
+      });
+    },
+    _live: function(names, cb, type) {
+      var self = this;
+      splitEvents(names, function(name) {
+        var events = self.events[name];
+        if (events._trigged && utils.isFunction(cb)) {
+          cb.apply(events._scope, events._args);
         }
-        if (utils.isFunction(cb)) cb.apply(self, utils.Args2Array(arguments));
-      };
-      this.on(name, live);
+        self[type](name, cb);
+      });
+    },
+    live: function(names, cb) {
+      self._live(names, cb, 'on');
+    },
+    liveOnce: function(names, cb) {
+      self._live(names, cb, 'once');
     }
   });
 
