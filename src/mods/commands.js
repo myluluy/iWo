@@ -24,7 +24,7 @@ iwo.register('mods/range/commands', ['mods/utils', 'mods/event'], function(requi
         }
         cmd = fixCommand(name, command);
         __Commands[name] = cmd;
-        evt.fire('commandregister', utils.clone(cmd));
+        evt.on('commandregister', utils.clone(cmd));
       },
 
       execCommand: function(cmdName) {
@@ -32,13 +32,13 @@ iwo.register('mods/range/commands', ['mods/utils', 'mods/event'], function(requi
           res;
         if (cmd) {
           if (cmd.type !== 'unevent') {
-            evt.fire('commandbefore', arguments);
-            evt.fire('commandbefore.' + cmd.name, arguments);
+            evt.on('commandbefore', arguments);
+            evt.on('commandbefore.' + cmd.name, arguments);
           }
           res = cmd.execute(arguments);
           if (cmd.type !== 'unevent') {
-            evt.fire('commandafter' + cmd.name, arguments);
-            evt.fire('commandafter', arguments);
+            evt.on('commandafter' + cmd.name, arguments);
+            evt.on('commandafter', arguments);
           }
           return res;
         } else {
