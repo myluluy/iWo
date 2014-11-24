@@ -4,99 +4,63 @@
  * @fileoverview custom event
  */
 
-iwo.define('mods/event', ['mods/utils'], function(require) {
+iwo.define('mods/event', ['mods/class', 'mods/utils'], function(require) {
 
-  var utils = require('mods/utils'),
+  var Class = require('mods/class');
+  var utils = require('mods/utils');
 
-  createEvt = function(name) {
-    return {
-      returnValue: true,
-      event: name,
-      undo: false
-    };
-  },
-  Event = function() {
-    this.__Events = {};
-    this.__hasFire = {};
-  };
-
-  Event.prototype = {
-    constructor: Event,
-    /**
-       * 触发事件
-       * @param {Object} object 事件处理函数的作用域
-       * @param {String} name   事件名称
-       * @param {Object} data   传入的数据
-       */
-    trigger: function(object, name, data) {
-      var funcs = this.__Events[name] || [];
-      var datas = Array.prototype.slice.apply(arguments, [2]);
-      var returnValue, item, params, a = 0;
-
-      for (; a < funcs.length; a++) {
-        item = funcs[a];
-        if (!utils.isFunction(item)) {
-          continue;
-        }
-        e = createEvt(name);
-        params = utils.clone(datas);
-        params.unshift(e);
-        returnValue = item.apply(object || this, params);
-        if (false === returnValue) {
-          return returnValue;
-        }
-        if (e.undo === true) {
-          this.__Events[name][a] = undefined;
-          this.__Events[name].splice(a, 1);
-          a--;
-        }
-
-        if (e.returnValue === false) {
-          break;
-        }
-      }
-      this.__hasFire[name] = utils.clone(arguments);
-      return returnValue;
+  var Event = new Class({
+    initialize: function() {
+      this.events = {};
     },
-    /**
-       * 绑定事件
-       * @param {String} name  事件名称
-       * @param {Function} func    事件处理函数
-       * @param {Boolean} isFirst  处理函数是否添加在最前面
-       * @returns {*}
-       */
-    on: function(evtname, func, isFirst) {
-      var names = evtname.split(',');
-      for (var i = 0; i < names.length; i++) {
-        var name = names[i];
-        if (!this.__Events[name]) {
-          this.__Events[name] = [];
-        }
-
-        if (isFirst && this.__hasFire[name]) {
-          if (utils.isFunction(func)) {
-            var e = createEvt(name);
-            var object = this.__hasFire[name][0] || this;
-            var data = this.__hasFire[name],
-            datas = [];
-            if (data) {
-              datas = Array.prototype.slice.apply(data, [2, data.length]);
-            }
-            datas.unshift(e);
-            func.apply(object, datas);
-            if (e.undo !== true) {
-              this.__Events[name].unshift(func);
-            }
-          }
-        } else {
-          this.__Events[name].unshift(func);
+    trigger: function(name, args, scope) {
+      var self = this,
+      cbs = this.events[name];
+      for (var i = 0; i < cbs.length; i++) {
+        var cb = cbs[i];
+        if (utils.isFunction(cb)) {
+          cb._args = args;
+          cb._scope = scope || self;
+          if (cb.apply(cb._scope, cb._args) === false) break;
         }
       }
-
+    },
+    on: function(name, cb) {
+      var events = this.events;
+      if (events[name]) {
+        events[name].push(cb);
+      } else {
+        events[name] = [cb];
+      }
+    },
+    once: function(name, cb) {
+      var self = this,
+      once = function() {
+        var cbs = self.events[name],
+        cbIndex = utils.indexOf(cbs, once);
+        if (utils.isFunction(cb)) cb.apply(self, utils.Args2Array(arguments));
+        cbs.split(cbIndex, 1);
+      };
+      this.on(name, once);
+    },
+    live: function(name, cb) {
+      var self = this,
+      fired, live = function() {
+        if (!fired) {
+          var cbs = self.events[name],
+          cbIndex = utils.indexOf(cbs, live);
+          for (var i = 0; i < cbIndex; i++) {
+            var fn = cbs[i];
+            fn.apply(fn._scope, fn._args);
+          }
+          fired = true;
+        }
+        if (utils.isFunction(cb)) cb.apply(self, utils.Args2Array(arguments));
+      };
+      this.on(name, live);
     }
-
-  };
+  });
 
   return Event;
-});
 
+});
