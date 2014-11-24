@@ -10,7 +10,7 @@ iwo.define('mods/event', ['mods/class', 'mods/utils'], function(require) {
   var utils = require('mods/utils');
 
   function splitEvents(names, cb) {
-    utils.forEach(names.split(','),cb);
+    utils.forEach(names.split(','), cb);
   }
 
   var Event = new Class({
@@ -55,15 +55,21 @@ iwo.define('mods/event', ['mods/class', 'mods/utils'], function(require) {
         self.on(name, once);
       });
     },
-    live: function(names, cb) {
+    _live: function(names, cb, type) {
       var self = this;
       splitEvents(names, function(name) {
         var events = self.events[name];
         if (events._trigged && utils.isFunction(cb)) {
-          cb.apply(cbs._scope, cbs._args);
+          cb.apply(events._scope, events._args);
         }
-        self.on(name, cb);
+        self[type](name, cb);
       });
+    },
+    live: function(names, cb) {
+      self._live(names, cb, 'on');
+    },
+    liveOnce: function(names, cb) {
+      self._live(names, cb, 'once');
     }
   });
 
