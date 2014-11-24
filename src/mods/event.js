@@ -7,6 +7,7 @@
 iwo.define('mods/event', ['mods/utils'], function(require) {
 
   var utils = require('mods/utils'),
+
   createEvt = function(name) {
     return {
       returnValue: true,
@@ -27,8 +28,7 @@ iwo.define('mods/event', ['mods/utils'], function(require) {
        * @param {String} name   事件名称
        * @param {Object} data   传入的数据
        */
-    fire: function(object, name, data) {
-      name = name.toLowerCase();
+    trigger: function(object, name, data) {
       var funcs = this.__Events[name] || [];
       var datas = Array.prototype.slice.apply(arguments, [2]);
       var returnValue, item, params, a = 0;
@@ -65,8 +65,7 @@ iwo.define('mods/event', ['mods/utils'], function(require) {
        * @param {Boolean} isFirst  处理函数是否添加在最前面
        * @returns {*}
        */
-    bind: function(evtname, func, isFirst) {
-      evtname = evtname.toLowerCase();
+    on: function(evtname, func, isFirst) {
       var names = evtname.split(',');
       for (var i = 0; i < names.length; i++) {
         var name = names[i];

@@ -52,3 +52,4 @@ iwo.define('mods/class', ['mods/utils'], function(require) {
   return Class;
 
 });
+
