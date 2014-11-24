@@ -16,6 +16,7 @@ iwo.define('mods/event', ['mods/class', 'mods/utils'], function(require) {
     trigger: function(name, args, scope) {
       var self = this,
       cbs = this.events[name];
+      if(!cbs) return;
       for (var i = 0; i < cbs.length; i++) {
         var cb = cbs[i];
         if (utils.isFunction(cb)) {
