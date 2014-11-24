@@ -7,6 +7,5 @@ iwo.define('iwo.core',['mods/event','mods/dom','mods/utils','mods/help'],functio
   var help = require('mods/help');
   var Event = require('mods/event');
   var test = new Event();
-  test.trigger();
 });
 
