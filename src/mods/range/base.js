@@ -71,7 +71,7 @@ iwo.register('mods/range/base', [], function(require) {
       range.setSc(this.sc, this.so);
       range.setEc(this.ec, this.eo);
       return range;
-    }
+    },
 
   };
 
@@ -125,6 +125,9 @@ iwo.register('mods/range/base', [], function(require) {
     fixRange(range);
     return range;
   }
+
+  
+  
   return Base;
 
 });
