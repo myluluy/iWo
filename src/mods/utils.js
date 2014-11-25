@@ -196,6 +196,40 @@ iwo.define('mods/utils', function(require) {
       }
       _res = null;
       return res || null;
+    },
+
+    deffer: function(fn, timer) {
+      var funcs = [],
+        called = function(fn, timer) {
+          (function() {
+            window.setTimeout(function() {
+              if (fn) {
+                fn();
+              }
+              var next = funcs.shift();
+              if (next && next.fn) {
+                called(next.fn, next.timer);
+              } else {
+                funcs = deffer = called = null;
+              }
+            }, timer);
+          })();
+        },
+
+        deffer = function(_fn, _timer) {
+          funcs.push({
+            fn: _fn,
+            timer: _timer || timer
+          });
+          return {
+            deffer: deffer
+          };
+        };
+
+      called(fn, timer || 200);
+      return {
+        deffer: deffer
+      };
     }
 
   };

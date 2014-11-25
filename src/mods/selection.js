@@ -47,7 +47,7 @@ iwo.register('mods/selection', ['mods/range/base', 'mods/range/range'], function
   prop.saveRange = function() {
     this.history.push(this.range.cloneRange());
     if (Selection.MAX_HISTORY_LENGTH < this.history.length) {
-      this.history.unshift();
+      this.history.shift();
     }
   };
 
