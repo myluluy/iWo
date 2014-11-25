@@ -159,10 +159,9 @@ iwo.define('mods/utils', function(require) {
       });
       return collection;
     },
-    ichotomySearch: function(arr, condition, greedy) { //TODO
+    dichotomy: function(arr, condition, greedy) { //TODO: for greedy
       var len = arr.length,
         res,
-        _res = null,
         currStart = 0,
         currEnd = len - 1,
         curr = null,
@@ -194,7 +193,6 @@ iwo.define('mods/utils', function(require) {
 
         }
       }
-      _res = null;
       return res || null;
     },
 
