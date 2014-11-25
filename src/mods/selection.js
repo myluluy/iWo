@@ -3,8 +3,9 @@
  * @date 20141113
  * @fileoverview selection for iwo
  */
-iwo.register('mods/selection', ['mods/range/base', 'mods/range/range'], function(require) {
-  var Range = require('mods/range/range');
+iwo.register('mods/selection', ['mods/range/base', 'mods/range/range', 'mods/event'], function(require) {
+  var Range = require('mods/range/range'),
+    Event = require('mods/event');
 
   function Selection(doc, body) {
     this.doc = doc || document;
@@ -14,6 +15,8 @@ iwo.register('mods/selection', ['mods/range/base', 'mods/range/range'], function
     this.range = new Range(doc);
 
     this.history = [];
+
+    this.event = new Event();
 
 
   }
@@ -84,6 +87,10 @@ iwo.register('mods/selection', ['mods/range/base', 'mods/range/range'], function
   prop.addRange = function() {
 
   };
+  
+  function listenForSelectionChange() { //TODO
+    var listeners = 'keyup,mouseup,touchend';
+  }
 
   return selection;
 });
