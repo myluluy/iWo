@@ -161,7 +161,7 @@ iwo.define('mods/utils', function(require) {
       });
       return collection;
     },
-    ichotomySearch: function(arr, condition, greedy) { //TODO
+    dichotomySearch: function(arr, condition, greedy) { //TODO
       var len = arr.length,
         res,
         _res = null,
