@@ -15,11 +15,12 @@ iwo.define('mods/event', ['mods/class', 'mods/utils'], function(require) {
 
   var Event = new Class({
     initialize: function() {
-      this.events = {};
+      this._events = {};
+      console.log('events');
     },
     trigger: function(name, args, scope) {
       var self = this,
-      events = this.events,
+      events = this._events,
       cbs = events[name] ? events[name] : [];
       cbs._args = args;
       cbs._scope = scope || self;
@@ -35,7 +36,7 @@ iwo.define('mods/event', ['mods/class', 'mods/utils'], function(require) {
     on: function(names, cb) {
       var self = this;
       splitEvents(names, function(name) {
-        var events = self.events;
+        var events = self._events;
         if (events[name]) {
           events[name].push(cb);
         } else {
@@ -47,7 +48,7 @@ iwo.define('mods/event', ['mods/class', 'mods/utils'], function(require) {
       var self = this;
       splitEvents(names, function(name) {
         var once = function() {
-          var cbs = self.events[name],
+          var cbs = self._events[name],
           cbIndex = utils.indexOf(cbs, once);
           if (utils.isFunction(cb)) cb.apply(cbs._scope, cbs._args);
           cbs.split(cbIndex, 1);
@@ -58,7 +59,7 @@ iwo.define('mods/event', ['mods/class', 'mods/utils'], function(require) {
     _live: function(names, cb, type) {
       var self = this;
       splitEvents(names, function(name) {
-        var events = self.events[name];
+        var events = self._events[name];
         if (events._trigged && utils.isFunction(cb)) {
           cb.apply(events._scope, events._args);
         }
