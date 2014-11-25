@@ -16,7 +16,7 @@ iwo.define('mods/class', ['mods/utils'], function(require) {
     if (src.implement) {
       var imp = src.implement;
       utils.remove(src, 'implement');
-      src = utils.extend(src, utils.implement(imp, 'initialize'));
+      src = utils.extend(src, utils.implement(imp, ['initialize']));
     }
     constructor.prototype = utils.createNew(src);
     constructor.constructor = constructor;
@@ -47,7 +47,7 @@ iwo.define('mods/class', ['mods/utils'], function(require) {
   };
 
   Class.implement = function(arr) {
-    return (this.prototype = utils.extend(this.prototype, utils.implement(arr)));
+    return (this.prototype = utils.extend(this.prototype, utils.implement(arr,['initialize'])));
   };
 
   return Class;

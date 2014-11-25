@@ -61,7 +61,7 @@ iwo.define('mods/utils', function(require) {
       return toString.call(v) === '[object Array]';
     },
     isObject: function(v) {
-      return v === Obj(v);
+      return toString.call(v) === '[object Object]';
     },
     isNode: function(v) {
       return v.nodeType && utils.indexOf([2, 11, 9], v.nodeType) && ('cloneNode' in v);
@@ -146,9 +146,11 @@ iwo.define('mods/utils', function(require) {
 
         var safe = utils.clone(item);
 
-        utils.forEach(blackList, function(key) {
-          utils.remove(safe, key);
-        });
+        if(blackList){
+          utils.forEach(blackList, function(key) {
+            utils.remove(safe, key);
+          });
+        }
 
         if (safe.implement) {
           collection = utils.implement(safe.implement, blackList);
