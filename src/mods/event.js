@@ -13,13 +13,16 @@ iwo.define('mods/event', ['mods/class', 'mods/utils'], function(require) {
     utils.forEach(names.split(','), cb);
   }
 
+  var _events = {};
+
   var Event = new Class({
     initialize:function(){
-      this._events = {};         
+      var id = this.id = utils.uniqueID('ID');
+      _events[id] = {};
     },
     trigger: function(name, args, scope) {
       var self = this,
-      events = this._events,
+      events = _events[this.id],
       cbs = events[name] ? events[name] : [];
       cbs._args = args;
       cbs._scope = scope || self;
@@ -35,7 +38,7 @@ iwo.define('mods/event', ['mods/class', 'mods/utils'], function(require) {
     on: function(names, cb) {
       var self = this;
       _splitEvents(names, function(name) {
-        var events = self._events;
+        var events = _events[self.id];
         if (events[name]) {
           events[name].push(cb);
         } else {
@@ -47,10 +50,10 @@ iwo.define('mods/event', ['mods/class', 'mods/utils'], function(require) {
       var self = this;
       _splitEvents(names, function(name) {
         var once = function() {
-          var cbs = self._events[name],
+          var cbs = _events[self.id][name],
           cbIndex = utils.indexOf(cbs, once);
           if (utils.isFunction(cb)) cb.apply(cbs._scope, cbs._args);
-          cbs.split(cbIndex, 1);
+          cbs.splice(cbIndex, 1);
         };
         self.on(name, once);
       });
@@ -66,7 +69,7 @@ iwo.define('mods/event', ['mods/class', 'mods/utils'], function(require) {
   function _live(names, cb, type) {
     var self = this;
     _splitEvents(names, function(name) {
-      var events = self._events[name];
+      var events = _events[self.id][name];
       if (events._trigged && utils.isFunction(cb)) {
         cb.apply(events._scope, events._args);
       }

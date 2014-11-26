@@ -14,7 +14,7 @@ iwo.define('mods/attr', ['mods/class', 'mods/utils'], function(require) {
 
   var Attr = new Class({
     initialize: function(config) {
-      var id = this.id = utils.uniqueID('ID');
+      var id = this.id;
       attrs[id] = {};
       attrsOptions[id] = {};
       if (config) {

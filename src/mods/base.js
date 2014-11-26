@@ -29,7 +29,12 @@ iwo.define('mods/base', ['mods/event', 'mods/class', 'mods/attr', 'mods/utils'],
     }
   });
 
-  console.log(test);
+  test.once('change:hoho',function(){
+    console.log(123); 
+  });
+
+  test.set('hoho',2);
+  test.set('hoho',2);
 
   return Base;
 
