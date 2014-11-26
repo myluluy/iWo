@@ -21,6 +21,7 @@ iwo.define('mods/class', ['mods/utils'], function(require) {
     utils.forEach(['extend'], function(item) {
       constructor[item] = Class[item];
     });
+
     return constructor;
   }
 

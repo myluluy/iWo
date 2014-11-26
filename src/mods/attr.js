@@ -9,56 +9,71 @@ iwo.define('mods/attr', ['mods/class', 'mods/utils'], function(require) {
   var Class = require('mods/class');
   var utils = require('mods/utils');
 
+  var attrs = {};
+  var attrsOptions = {};
+
   var Attr = new Class({
     initialize: function(config) {
-      var attrs = this.attrs = {};
+      var id = this.id = utils.uniqueID('ID');
+      attrs[id] = {};
+      attrsOptions[id] = {};
       if (config) {
-        utils.mixin(attrs, config);
+        utils.mixin(attrs[id], config);
       }
-      this._setMethodEvent(attrs); //设置before after方法
-      console.log('attr');
+      _setMethodEvent.call(this); //设置before after方法
     },
-    _set: function(key, val) {
-      var prev = this.attrs[key];
-      this.attrs[key] = val;
-      this.trigger('change:' + key, [val, prev, key]);
-      this.trigger('change', [key, val, prev]);
-    },
-    set: function(keys, val) {
+    set: function(keys, val, options) {
       var self = this;
       if (utils.isObject(keys)) {
         utils.each(keys, function(val, key) {
-          self._set.call(self,key, val);
+          _set.call(self, key, val, options);
         });
       } else {
-        this._set(keys, val);
+        _set.call(self, keys, val, options);
       }
       return this;
     },
     get: function(key) {
-      return this.attrs[key];
-    },
-    _setMethodEvent: function(attrs) {
-      var self = this;
-      utils.each(attrs, function(attr, method) {
-        if (utils.isFunction(attr)){
-          self[method] = function(){
-            var args = utils.Args2Array(arguments);
-            self.trigger('before'+upFirst(method),args,self);
-            attr.apply(self,args);
-            self.trigger('after'+upFirst(method),args,self);
-          };
-          delete self.attrs[method];
-        }
-      });
+      var id = this.id;
+      return utils.clone(attrs[id][key]);
     }
   });
 
-  function upFirst(method){
+  function _set(key, val,options) {
+    var id = this.id,
+    prev = attrs[id][key],
+    o = attrsOptions[id][key];
+    if(!o && options) attrsOptions[id][key] = options;
+    if(o && o.readOnly){
+      throw Error('can set a readOnly value'); 
+    }else{
+      attrs[id][key] = val;
+      this.trigger('change:' + key, [val, prev, key]);
+      this.trigger('change', [key, val, prev]);
+    }
+  }
+
+  function _setMethodEvent() {
+    var self = this;
+    utils.each(attrs[this.id], function(attr, method) {
+      if (utils.isFunction(attr)) {
+        self[method] = function() {
+          var args = utils.Args2Array(arguments);
+          self.trigger('before' + _upFirst(method), args, self);
+          attr.apply(self, args);
+          self.trigger('after' + _upFirst(method), args, self);
+        };
+        delete attrs[self.id][method];
+      }
+    });
+  }
+
+  function _upFirst(method) {
     var f = method.charAt(0);
-    return f.toUpperCase() + method.slice(1); 
+    return f.toUpperCase() + method.slice(1);
   }
 
   return Attr;
 
 });
+

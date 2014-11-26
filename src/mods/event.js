@@ -9,14 +9,13 @@ iwo.define('mods/event', ['mods/class', 'mods/utils'], function(require) {
   var Class = require('mods/class');
   var utils = require('mods/utils');
 
-  function splitEvents(names, cb) {
+  function _splitEvents(names, cb) {
     utils.forEach(names.split(','), cb);
   }
 
   var Event = new Class({
-    initialize: function() {
-      this._events = {};
-      console.log('events');
+    initialize:function(){
+      this._events = {};         
     },
     trigger: function(name, args, scope) {
       var self = this,
@@ -35,7 +34,7 @@ iwo.define('mods/event', ['mods/class', 'mods/utils'], function(require) {
     },
     on: function(names, cb) {
       var self = this;
-      splitEvents(names, function(name) {
+      _splitEvents(names, function(name) {
         var events = self._events;
         if (events[name]) {
           events[name].push(cb);
@@ -46,7 +45,7 @@ iwo.define('mods/event', ['mods/class', 'mods/utils'], function(require) {
     },
     once: function(names, cb) {
       var self = this;
-      splitEvents(names, function(name) {
+      _splitEvents(names, function(name) {
         var once = function() {
           var cbs = self._events[name],
           cbIndex = utils.indexOf(cbs, once);
@@ -56,23 +55,24 @@ iwo.define('mods/event', ['mods/class', 'mods/utils'], function(require) {
         self.on(name, once);
       });
     },
-    _live: function(names, cb, type) {
-      var self = this;
-      splitEvents(names, function(name) {
-        var events = self._events[name];
-        if (events._trigged && utils.isFunction(cb)) {
-          cb.apply(events._scope, events._args);
-        }
-        self[type](name, cb);
-      });
-    },
     live: function(names, cb) {
-      self._live(names, cb, 'on');
+      _live.call(this, names, cb, 'on');
     },
     liveOnce: function(names, cb) {
-      self._live(names, cb, 'once');
+      _live.call(this, names, cb, 'once');
     }
   });
+
+  function _live(names, cb, type) {
+    var self = this;
+    _splitEvents(names, function(name) {
+      var events = self._events[name];
+      if (events._trigged && utils.isFunction(cb)) {
+        cb.apply(events._scope, events._args);
+      }
+      self[type](name, cb);
+    });
+  }
 
   return Event;
 

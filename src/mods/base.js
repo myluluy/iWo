@@ -1,4 +1,10 @@
-iwo.define('mods/base', ['mods/event','mods/class','mods/attr','mods/utils'], function(require) {
+/**
+ * @author xiaojue[designsor@gmail.com]
+ * @date 20141126
+ * @fileoverview base for class
+ */
+
+iwo.define('mods/base', ['mods/event', 'mods/class', 'mods/attr', 'mods/utils'], function(require) {
 
   var Class = require('mods/class');
 
@@ -9,32 +15,21 @@ iwo.define('mods/base', ['mods/event','mods/class','mods/attr','mods/utils'], fu
 
   var Base = new Class({
     initialize: function() {
-      console.log('base');
+      this.set('t', 1, {
+        readOnly: true
+      });
     }
   });
 
-  Base.extend([Event,Attr]);
+  Base.extend([Event, Attr]);
 
   var test = new Base({
-    attrs:{
-      a:1,
-      b:2
-    },
-    c:3,
-    test:function(){
-      this.set('a',5); 
+    hoho: {
+      a: 1
     }
   });
 
-  test.on('change:a',function(){
-    console.log('change a'); 
-  });
-
-  test.on('beforeTest',function(){
-    console.log(arguments); 
-  });
-
-  test.test(123);
+  console.log(test);
 
   return Base;
 

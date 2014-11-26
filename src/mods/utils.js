@@ -176,8 +176,10 @@ iwo.define('mods/utils', function(require) {
       }
       _res = null;
       return res || null;
+    },
+    uniqueID:function(prevName){
+      return prevName + '_' + new Date().valueOf();
     }
-
   };
 
   return utils;
