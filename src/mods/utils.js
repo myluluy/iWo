@@ -22,10 +22,10 @@ iwo.define('mods/utils', function(require) {
       }
       return ret;
     },
-    each: function(src, fn) {
+    each: function(src, fn,deep) {
       var key;
       for (key in src) {
-        fn(src[key], key, src);
+        if(src.hasOwnProperty(key)) fn(src[key], key, src);
       }
     },
     forEach: Arr.forEach ? function(arr, fn) {
@@ -61,7 +61,7 @@ iwo.define('mods/utils', function(require) {
       return toString.call(v) === '[object Array]';
     },
     isObject: function(v) {
-      return v === Obj(v);
+      return toString.call(v) === '[object Object]';
     },
     isNode: function(v) {
       return v.nodeType && utils.indexOf([2, 11, 9], v.nodeType) && ('cloneNode' in v);
@@ -74,15 +74,17 @@ iwo.define('mods/utils', function(require) {
       }
       return -1;
     },
-    extend: function(src, target, preserve) {
+    extend: function(src, target,filter) {
       var key;
-      src = utils.clone(src);
-      target = utils.clone(target);
       for (key in target) {
         if (utils.isObject(target[key])) {
           utils.extend(src[key], target[key]);
         } else {
-          src[key] = (preserve && src[key]) ? src[key] : target[key];
+          if(filter){
+            src[key] = filter(target,src,key) ? src[key] : target[key];
+          }else{
+            src[key] = target[key];
+          }
         }
       }
       return src;
@@ -137,29 +139,7 @@ iwo.define('mods/utils', function(require) {
       F.prototype.constructor = F;
       return new F();
     },
-    implement: function(arr, blackList) {
-      var collection = {};
-
-      utils.forEach(arr, function(item, i, arr) {
-
-        if (utils.isFunction(item)) arr[i] = item.prototype;
-
-        var safe = utils.clone(item);
-
-        utils.forEach(blackList, function(key) {
-          utils.remove(safe, key);
-        });
-
-        if (safe.implement) {
-          collection = utils.implement(safe.implement, blackList);
-        } else {
-          collection = utils.extend(collection, safe);
-        }
-
-      });
-      return collection;
-    },
-    ichotomySearch: function(arr, condition, greedy) { //TODO
+    dichotomySearch: function(arr, condition, greedy) { //TODO
       var len = arr.length,
         res,
         _res = null,
@@ -196,8 +176,10 @@ iwo.define('mods/utils', function(require) {
       }
       _res = null;
       return res || null;
+    },
+    uniqueID:function(prevName){
+      return prevName + '_' + new Date().valueOf();
     }
-
   };
 
   return utils;

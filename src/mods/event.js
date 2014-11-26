@@ -9,17 +9,20 @@ iwo.define('mods/event', ['mods/class', 'mods/utils'], function(require) {
   var Class = require('mods/class');
   var utils = require('mods/utils');
 
-  function splitEvents(names, cb) {
+  function _splitEvents(names, cb) {
     utils.forEach(names.split(','), cb);
   }
 
+  var _events = {};
+
   var Event = new Class({
-    initialize: function() {
-      this.events = {};
+    initialize:function(){
+      var id = this.id = utils.uniqueID('ID');
+      _events[id] = {};
     },
     trigger: function(name, args, scope) {
       var self = this,
-      events = this.events,
+      events = _events[this.id],
       cbs = events[name] ? events[name] : [];
       cbs._args = args;
       cbs._scope = scope || self;
@@ -34,8 +37,8 @@ iwo.define('mods/event', ['mods/class', 'mods/utils'], function(require) {
     },
     on: function(names, cb) {
       var self = this;
-      splitEvents(names, function(name) {
-        var events = self.events;
+      _splitEvents(names, function(name) {
+        var events = _events[self.id];
         if (events[name]) {
           events[name].push(cb);
         } else {
@@ -45,33 +48,34 @@ iwo.define('mods/event', ['mods/class', 'mods/utils'], function(require) {
     },
     once: function(names, cb) {
       var self = this;
-      splitEvents(names, function(name) {
+      _splitEvents(names, function(name) {
         var once = function() {
-          var cbs = self.events[name],
+          var cbs = _events[self.id][name],
           cbIndex = utils.indexOf(cbs, once);
           if (utils.isFunction(cb)) cb.apply(cbs._scope, cbs._args);
-          cbs.split(cbIndex, 1);
+          cbs.splice(cbIndex, 1);
         };
         self.on(name, once);
       });
     },
-    _live: function(names, cb, type) {
-      var self = this;
-      splitEvents(names, function(name) {
-        var events = self.events[name];
-        if (events._trigged && utils.isFunction(cb)) {
-          cb.apply(events._scope, events._args);
-        }
-        self[type](name, cb);
-      });
-    },
     live: function(names, cb) {
-      self._live(names, cb, 'on');
+      _live.call(this, names, cb, 'on');
     },
     liveOnce: function(names, cb) {
-      self._live(names, cb, 'once');
+      _live.call(this, names, cb, 'once');
     }
   });
+
+  function _live(names, cb, type) {
+    var self = this;
+    _splitEvents(names, function(name) {
+      var events = _events[self.id][name];
+      if (events._trigged && utils.isFunction(cb)) {
+        cb.apply(events._scope, events._args);
+      }
+      self[type](name, cb);
+    });
+  }
 
   return Event;
 
