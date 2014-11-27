@@ -3,21 +3,21 @@
  * @date 20141124
  * @fileoverview plugin manager for iwo
  */
-iwo.register('mods/range/commands', ['mods/utils', 'mods/event'], function(require) {
-  var Event = require('mods/event'),
-    utils = require('mods/utils');
+iwo.register('mods/plugin', ['mods/utils', 'mods/base'], function(require) {
 
-  function PluginManager() {
-    this.event = new Event();
-    this.__Plugins = [{}, {}, {}, {}];
-  }
+  var Base = require('mods/base'),
+  utils = require('mods/utils');
 
-  PluginManager.prototype = {
-    constructor: PluginManager,
+  var PluginManager = Base.create({
+    initialize: function() {
+      this.__Plugins = [{},
+      {},
+      {},
+      {}];
+    },
     init: function(priority) {
       var self = this,
-        count = 0;
-
+      count = 0;
       utils.deffer(function() {
         load(0);
       }).deffer(function() {
@@ -26,14 +26,14 @@ iwo.register('mods/range/commands', ['mods/utils', 'mods/event'], function(requi
         load(2);
       }).deffer(function() {
         load(3);
-        self.event.trigger('pluginloaded');
+        self.trigger('pluginloaded');
       });
 
       function load(priority) {
         for (var plg in this.__Plugins[priority]) {
           self.loader(priority, plg.name);
         }
-        self.event.trigger('pluginloaded_' + priority);
+        self.trigger('pluginloaded_' + priority);
       }
     },
     loader: function(priority, name) {
@@ -48,9 +48,8 @@ iwo.register('mods/range/commands', ['mods/utils', 'mods/event'], function(requi
         return;
       }
       this.__Plugins[plg.priority][name] = plg;
-    },
-
-  };
+    }
+  });
 
   function fixPlugin(name, plugin) {
     var plg = Object.create(null);
@@ -63,8 +62,8 @@ iwo.register('mods/range/commands', ['mods/utils', 'mods/event'], function(requi
       plg.stance = utils.isFunction(plugin.constructor) ? new plugin.constructor(plugin.params) : {};
     };
     return plg;
-
   }
-  return new PluginManager();
 
+  return new PluginManager();
 });
+

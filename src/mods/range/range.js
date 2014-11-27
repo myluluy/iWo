@@ -3,17 +3,15 @@
  * @date 20141113
  * @fileoverview range  for iwo
  */
-iwo.register('mods/range/base', ['mods/range/base'], function(require) {
+iwo.register('mods/range/base', ['mods/range/base', 'mods/class'], function(require) {
+
+  var Class = require('mods/class');
   var Base = require('mods/range/base');
 
-  function Range(doc) {
-    var base = new Base(doc);
-  }
-
-  Range.prototype = {
-
-    constructor: Range,
-
+  var Range = new Class({
+    initialize: function(doc) {
+      var base = new Base(doc);
+    },
     insertNode: function(node) {
 
     },
@@ -34,11 +32,11 @@ iwo.register('mods/range/base', ['mods/range/base'], function(require) {
 
     },
 
-    getBlockParents : function(){
-    
-    }
+    getBlockParents: function() {
 
-  };
+    }
+  });
 
   return Range;
 });
+

@@ -4,6 +4,8 @@
  * @fileoverview core for iwo
  */
 iwo.define('iwo.core',['mods/base'],function(require){
+
   var Base = require('mods/base');
+
 });
 

@@ -3,42 +3,33 @@
  * @date 20141113
  * @fileoverview range  for iwo
  */
-iwo.register('mods/range/base', [], function(require) {
-  function Base(doc) {
+iwo.register('mods/range/base', ['mods/class'], function(require) {
 
-    /*
+  var Class = require('mods/class');
+
+  var Base = new Class({
+    initialize: function(doc) {
+      /*
      *  @property range.startContainer, range.endContainer,
      *
      * */
-    this.sc = this.ec = null;
+      this.sc = this.ec = null;
 
-
-    /*
+      /*
      *  @property range.startContainer, range.endContainer,
      *
      * */
-    this.so = this.eo = null;
+      this.so = this.eo = null;
 
-
-    /*
+      /*
      *  @property iframe document
      *
      * */
-    this.doc = doc || document;
+      this.doc = doc || document;
 
+      this.collapsed = null;
 
-    this.collapsed = null;
-
-  }
-
-
-  Base.prototype = {
-
-    /*
-     * @constructor
-     * */
-    constructor: Base,
-
+    },
     setSc: function(container, offset) {
       updateRange(this, container, offset, true);
     },
@@ -57,11 +48,11 @@ iwo.register('mods/range/base', [], function(require) {
 
     collapse: function(toStart) {
       var cont = ['sc', 'ec'],
-        ofst = ['so', eo],
-        t1 = toStart ? 0 : 1,
-        t2 = toStart ? 1 : 0;
-      range[cont[t1]] = range[cont[t2]];
-      range[ofst[t1]] = range[ofst[t2]];
+      ofst = ['so', 'eo'],
+      t1 = toStart ? 0: 1,
+      t2 = toStart ? 1: 0;
+      this[cont[t1]] = this[cont[t2]];
+      this[ofst[t1]] = this[ofst[t2]];
       this.collapsed = true;
       return this;
     },
@@ -71,11 +62,8 @@ iwo.register('mods/range/base', [], function(require) {
       range.setSc(this.sc, this.so);
       range.setEc(this.ec, this.eo);
       return range;
-    },
-
-  };
-
-
+    }
+  });
 
   /*prative methods*/
   /*
@@ -95,21 +83,21 @@ iwo.register('mods/range/base', [], function(require) {
       return range;
     }
     var sc = range.sc,
-      so = range.so,
-      ec = range.ec,
-      eo = range.eo;
+    so = range.so,
+    ec = range.ec,
+    eo = range.eo;
     collapsed = range.collapsed;
-    if (sc.nodeType === 3 && so >= sc.nodeValue.length) {
-      //TODO:
-    }
-
+    //if (sc.nodeType === 3 && so >= sc.nodeValue.length) {
+    //  //TODO:
+    //}
     if (collapsed) {
       range.collapse(true);
-    } else {
-      if (ec.nodeType === 3 && eo === 0) {
-        //TODO:
-      }
     }
+    // else {
+    //   if (ec.nodeType === 3 && eo === 0) {
+    //     //TODO:
+    //   }
+    // }
     return range;
   }
 
@@ -118,7 +106,7 @@ iwo.register('mods/range/base', [], function(require) {
    * set the container & offset for range;
    * */
   function updateRange(range, container, offset, isStart) {
-    var pName = isStart ? 's' : 'e';
+    var pName = isStart ? 's': 'e';
     range[pName + 'c'] = container;
     range[pName + 'o'] = offset;
     updateCollapse(range);
@@ -126,8 +114,7 @@ iwo.register('mods/range/base', [], function(require) {
     return range;
   }
 
-  
-  
   return Base;
 
 });
+

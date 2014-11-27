@@ -14,14 +14,14 @@ iwo.define('mods/base', ['mods/event', 'mods/class', 'mods/attr', 'mods/utils'],
   var utils = require('mods/utils');
 
   var Base = new Class({
-    initialize: function() {
-
+    create:function(src){
+       var cls = new Class(src);
+       cls.extend([Event,Attr]);
+       return cls;
     }
   });
 
-  Base.extend([Event, Attr]);
-
-  return Base;
+  return new Base();
 
 });
 

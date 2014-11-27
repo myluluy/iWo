@@ -3,17 +3,15 @@
  * @date 20141115
  * @fileoverview commands manager for iwo
  */
-iwo.register('mods/range/commands', ['mods/utils', 'mods/event'], function(require) {
-  var Event = require('mods/event'),
-    utils = require('mods/utils');
+iwo.register('mods/commands', ['mods/utils', 'mods/base'], function(require) {
 
-  function CommandManager() {
-    this.__Commands = {};
-    this.event = new Event();
-  }
-  CommandManager.prototype = {
+  var Base = require('mods/base'),
+  utils = require('mods/utils');
 
-    constructor: CommandManager,
+  var CommandManager = Base.create({
+    initialize: function() {
+      this.__Commands = {};
+    },
     /**
      * @method : register
      * @注册新命令
@@ -29,21 +27,21 @@ iwo.register('mods/range/commands', ['mods/utils', 'mods/event'], function(requi
       }
       cmd = fixCommand(name, command);
       this.__Commands[name] = cmd;
-      this.event.trigger('commandregister', utils.clone(cmd));
+      this.trigger('commandregister', utils.clone(cmd));
     },
 
     execCommand: function(cmdName) {
       var cmd = this.__Commands[cmdName],
-        res;
+      res;
       if (cmd) {
         if (cmd.type !== 'unevent') {
-          this.event.trigger('commandbefore', arguments);
-          this.event.trigger('commandbefore.' + cmd.name, arguments);
+          this.trigger('commandbefore', arguments);
+          this.trigger('commandbefore.' + cmd.name, arguments);
         }
         res = cmd.execute(arguments);
         if (cmd.type !== 'unevent') {
-          this.event.trigger('commandafter' + cmd.name, arguments);
-          this.event.trigger('commandafter', arguments);
+          this.trigger('commandafter' + cmd.name, arguments);
+          this.trigger('commandafter', arguments);
         }
         return res;
       } else {
@@ -53,26 +51,26 @@ iwo.register('mods/range/commands', ['mods/utils', 'mods/event'], function(requi
 
     queryProperties: function(cmdName, prop) {
       var cmd = this.__Commands[cmdName],
-        res;
+      res;
       res = cmd && cmd[prop];
       if (res === undefined) {
         return undefined;
       }
-      return utils.isFunction(res) ? '[object Function]' : utils.isString(res) ? res : utils.clone(res);
+      return utils.isFunction(res) ? '[object Function]': utils.isString(res) ? res: utils.clone(res);
 
     },
 
     on: function(eventname, func) {
-      return this.event.on(eventname, func);
+      return this.on(eventname, func);
     },
     getAllCommands: function() {
       return utils.clone(this.__Commands);
     }
-  };
+  });
 
   function fixCommand(name, command) { //TODO: To extend the cmd for more function
     var cmd = Object.create(null),
-      res;
+    res;
     cmd.name = name;
     cmd.type = command.type || 'normal';
     cmd.execute = function() {
@@ -82,5 +80,7 @@ iwo.register('mods/range/commands', ['mods/utils', 'mods/event'], function(requi
     };
     return cmd;
   }
+
   return new CommandManager();
 });
+

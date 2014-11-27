@@ -17,6 +17,10 @@ iwo.define('mods/attr', ['mods/class', 'mods/utils'], function(require) {
       var id = this.id;
       attrs[id] = {};
       attrsOptions[id] = {};
+      this.attrs = {
+        options:attrsOptions[id],
+        value:attrs[id]
+      };
       if (config) {
         utils.mixin(attrs[id], config);
       }
@@ -25,6 +29,7 @@ iwo.define('mods/attr', ['mods/class', 'mods/utils'], function(require) {
     set: function(keys, val, options) {
       var self = this;
       if (utils.isObject(keys)) {
+        options = val;
         utils.each(keys, function(val, key) {
           _set.call(self, key, val, options);
         });
