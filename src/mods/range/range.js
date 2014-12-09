@@ -1,42 +1,124 @@
 /**
- * @author myluluy@gmail.com
+ * @author arck[myluluy@gmail.com]
  * @date 20141113
  * @fileoverview range  for iwo
  */
-iwo.register('mods/range/base', ['mods/range/base', 'mods/class'], function(require) {
+iwo.register('mods/range/range', ['mods/class,mods/dtd'], function(require) {
 
   var Class = require('mods/class');
-  var Base = require('mods/range/base');
-
+  var dtd = require('mods/dtd');
   var Range = new Class({
     initialize: function(doc) {
-      var base = new Base(doc);
-    },
-    insertNode: function(node) {
+      /*
+       *  @property range.startContainer, range.endContainer,
+       *
+       * */
+      this.sc = this.ec = null;
+
+      /*
+       *  @property range.startContainer, range.endContainer,
+       *
+       * */
+      this.so = this.eo = null;
+
+      /*
+       *  @property iframe document
+       *
+       * */
+      this.doc = doc || document;
+
+      this.collapsed = true;
 
     },
-
-    getTextNodes: function() {
-
+    setSc: function(container, offset) {
+      updateRange(this, container, offset, true);
     },
 
-    mergeTextNode: function() {
-
+    setEc: function(container, offset) {
+      updateRange(this, container, offset, false);
     },
 
-    breakContainer: function() {
+    setScAfter: function(container) {},
 
+    setEcAfter: function(container) {},
+
+    setScBefore: function(container) {},
+
+    setEcBefore: function(container) {},
+
+    collapse: function(toStart) {
+      var cont = ['sc', 'ec'],
+        ofst = ['so', 'eo'],
+        t1 = toStart ? 0 : 1,
+        t2 = toStart ? 1 : 0;
+      this[cont[t1]] = this[cont[t2]];
+      this[ofst[t1]] = this[ofst[t2]];
+      this.collapsed = true;
+      return this;
     },
 
-    removeNode: function(isChild) {
-
-    },
-
-    getBlockParents: function() {
-
+    cloneRange: function() {
+      var range = new Range(this.doc);
+      range.setSc(this.sc, this.so);
+      range.setEc(this.ec, this.eo);
+      return range;
     }
   });
 
-  return Range;
-});
+  /*prative methods*/
+  /*
+   *  @method : update the range.collapsed;
+   * */
+  function updateCollapse(range) {
+    range.collapsed = range && range.sc && range.ec && range.sc === range.ec && range.so === range.eo;
+    return range;
+  }
 
+  /*
+   * @method :fixRange
+   * fix container & offset to suitable;
+   * */
+  function fixRange(range) {
+    if (!range) {
+      return range;
+    }
+    var collapsed = range.collapsed;
+
+    if (range.so === 0 && range.sc.nodeType === 1 && dtd.$empty[range.sc.tagName]) {
+      range.setScBefore(sc);
+    }
+
+    if (range.eo === 0 && range.ec.nodeType === 1 && dtd.$empty[range.ec.tagName]) {
+      range.setEcAfter(sc);
+    }
+
+    //if (sc.nodeType === 3 && so >= sc.nodeValue.length) {
+    //  //TODO:
+    //}
+    if (collapsed) {
+      range.collapse(true);
+    }
+    // else {
+    //   if (ec.nodeType === 3 && eo === 0) {
+    //     //TODO:
+    //   }
+    // }
+    return range;
+  }
+
+  /*
+   * @method : updateRange
+   * set the container & offset for range;
+   * */
+  function updateRange(range, container, offset, isStart) {
+    var pName = isStart ? 's' : 'e';
+    range[pName + 'c'] = container;
+    range[pName + 'o'] = offset;
+    updateCollapse(range);
+    fixRange(range);
+    return range;
+  }
+
+  return Range;
+
+});
