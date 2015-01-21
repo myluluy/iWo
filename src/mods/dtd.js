@@ -3,7 +3,7 @@
  * @constructor
  * @namespace dtd
  */
-iwo.register('dtd', ['mods/utils'], function(require) {
+iwo.define('mods/dtd', [], function(require) {
   /*
    *
    * http://dev.ckeditor.com/browser/CKEditor/tags/3.6.6.2/_source/core/dtd.js
@@ -32,9 +32,33 @@ iwo.register('dtd', ['mods/utils'], function(require) {
    * alert( !!CKEDITOR.dtd.$block[ 'p' ] );  "true"
    */
 
-  var dtd = (function() {
-    var utils = require('mods/utils'),
-      x = utils.extend,
+  return (function() {
+    var m = function(o, ref, deep) {
+      for (var p in ref) {
+        if (ref.hasOwnProperty(p)) {
+          if (deep && o[p] && Util.isObject(o[p])) {
+            m(o[p], ref[p], deep);
+          } else {
+            o[p] = ref[p];
+          }
+        }
+      }
+      return o;
+
+    };
+    var x = function(defaults, settings) {
+        var args = arguments;
+        defaults = defaults || {};
+
+        if (args.length == 2) {
+          defaults = m(defaults, settings);
+        } else {
+          for (var i = 1, len = args.length; i < len; i++) {
+            defaults = m(defaults, args[i]);
+          }
+        }
+        return defaults;
+      },
       A = {
         isindex: 1,
         fieldset: 1
@@ -664,5 +688,4 @@ iwo.register('dtd', ['mods/utils'], function(require) {
       datalist: O
     };
   })();
-  return dtd;
 });

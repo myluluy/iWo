@@ -1,125 +1,56 @@
 /*
- * @file : DomEngine.js
+ * @file : domengine.js
  * @author : arck[myluluy@gmail.com]
  * @date : 2015.01.20
- * version : 1.0.0
+ * @version : 1.0.0
  *
  * */
 
+var attribute = 'mods/domengine/attribute',
+  comment = 'mods/domengine/comment',
+  documentfragment = 'mods/domengine/documentfragment',
+  element = 'mods/domengine/element',
+  textnode = 'mods/domengine/textnode';
 
-/**
- *
- * DOM是静态属性与方法的命名空间
- **/
-iwo.register('domengine', ['mods/utils'],function(require) {
-  var DOM = {
-      /*
-       *  Object
-       *  Number:1
-       * */
+iwo.define('mods/domengine/domengine', ['mods/utils', 'mods/dtd', attribute, comment, documentfragment, element, textnode], function(require) {
+  var Attribute = require(attribute),
 
-      //'document': document,
+    Comment = require(comment),
 
-      /*
-       * Methods
-       * Number : 5
-       * */
+    DocumentFragment = require(documentfragment),
 
-      createAttribute: function(name) {
-        var attr = new Attribute(name);
-        return attr;
-      },
+    Element = require(element),
 
-      createComment: function() {},
+    Textnode = require(textnode);
 
-      createDocumentFragment: function() {},
 
-      createElement: function(name) {
-        var elem = new Element(name);
-        return elem;
-      },
+  var dom = {
 
-      createTextNode: function() {},
-
+    createAttribute: function(name) {
+      return new Attribute(name);
     },
 
+    createComment: function(string) {
+      return new Comment(string);
+    },
 
-    Document = function() {
+    createDocumentFragment: function() {
+      return new DocumentFragment();
+    },
 
-    };
-  Document.prototype = {
+    createElement: function(name) {
+      return new Element(name);
+    },
 
-    contructor: Document,
+    createTextNode: function() {
+      return new Textnode;
+    },
 
-    ELEMENT_NODE: 1,
+    parseDom : function(HTMLString){
+    
+    }
 
-    ATTRIBUTE_NODE: 2,
-
-    TEXT_NODE: 3,
-
-    CDATA_SECTION_NODE: 4,
-
-    ENTITY_REFERENCE_NODE: 5,
-
-    ENTITY_NODE: 6,
-
-    PROCESSING_INSTRUCTION_NODE: 7,
-
-    COMMENT_NODE: 8,
-
-    DOCUMENT_NODE: 9,
-
-    DOCUMENT_TYPE_NODE: 10,
-
-    DOCUMENT_FRAGMENT_NODE: 11,
-
-    NOTATION_NODE: 12
   };
 
-
-  var Attribute = function(name) {
-      this.nodeType = this.ATTRIBUTE_NODE;
-      this.value = null;
-      this.nodeName = name;
-      this.name = name;
-      this.ownerElement = null;
-
-      if (typeof name === 'string') {
-        this.lowerCaseName = name.toLowerCase();
-        this.upperCaseName = name.toUpperCase();
-      }
-
-    },
-
-    Comment = function(str) {},
-
-    DocumentFragment = function() {},
-
-    Element = function(name) {
-      this.isBlock = false;
-      this.isInline = true;
-      this.isCustom = false;
-      this.tagName = name;
-      this.nodeType = this.ELEMENT_NODE;
-      var attributes = [],
-        property = [];
-
-    },
-
-    TextNode = function(str) {},
-
-    attributeProto = Attribute.prototype = new Document(),
-    commentProto = Comment.prototype = new Document(),
-    documentFragmentProto = DocumentFragment.prototype = new Document(),
-    elementProto = Element.prototype = new Document(),
-    textNodeProto = TextNode.prototype = new Document();
-
-
-
-  //window.DOM = DOM
-
-
-  //test
-  var div = DOM.createElement('div');
-  console.info(div);
+  return dom;
 });
