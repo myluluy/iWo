@@ -34,7 +34,7 @@ iwo.register('dtd', ['mods/utils'], function(require) {
 
   var dtd = (function() {
     var utils = require('mods/utils'),
-      x = function() {},
+      x = utils.extend,
       A = {
         isindex: 1,
         fieldset: 1
