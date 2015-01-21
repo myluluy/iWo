@@ -33,8 +33,8 @@ iwo.register('dtd', ['mods/utils'], function(require) {
    */
 
   var dtd = (function() {
-    var utils = require('mods/utils');
-    var X = utils.extend,
+    var utils = require('mods/utils'),
+      x = function() {},
       A = {
         isindex: 1,
         fieldset: 1
@@ -46,10 +46,10 @@ iwo.register('dtd', ['mods/utils'], function(require) {
         textarea: 1,
         label: 1
       },
-      C = X({
+      C = x({
         a: 1
       }, B),
-      D = X({
+      D = x({
         iframe: 1
       }, C),
       E = {
@@ -101,7 +101,7 @@ iwo.register('dtd', ['mods/utils'], function(require) {
         script: 1,
         style: 1
       },
-      G = X({
+      G = x({
         b: 1,
         acronym: 1,
         bdo: 1,
@@ -125,7 +125,7 @@ iwo.register('dtd', ['mods/utils'], function(require) {
         span: 1,
         wbr: 1
       }, F),
-      H = X({
+      H = x({
         sub: 1,
         img: 1,
         object: 1,
@@ -138,10 +138,10 @@ iwo.register('dtd', ['mods/utils'], function(require) {
         small: 1,
         mark: 1
       }, G),
-      I = X({
+      I = x({
         p: 1
       }, H),
-      J = X({
+      J = x({
         iframe: 1
       }, H, B),
       K = {
@@ -197,7 +197,6 @@ iwo.register('dtd', ['mods/utils'], function(require) {
         mark: 1,
         time: 1,
         meter: 1,
-        menu: 1,
         command: 1,
         keygen: 1,
         output: 1,
@@ -234,7 +233,7 @@ iwo.register('dtd', ['mods/utils'], function(require) {
         dfn: 1
       },
 
-      L = X({
+      L = x({
         a: 1
       }, J),
       M = {
@@ -243,10 +242,10 @@ iwo.register('dtd', ['mods/utils'], function(require) {
       N = {
         '#': 1
       },
-      O = X({
+      O = x({
         param: 1
       }, K),
-      P = X({
+      P = x({
         form: 1
       }, A, D, E, I),
       Q = {
@@ -262,7 +261,7 @@ iwo.register('dtd', ['mods/utils'], function(require) {
         meta: 1,
         title: 1
       },
-      T = X(S, R),
+      T = x(S, R),
       U = {
         head: 1,
         body: 1
@@ -322,7 +321,7 @@ iwo.register('dtd', ['mods/utils'], function(require) {
       // The "$" items have been added manually.
 
       // List of elements living outside body.
-      $nonBodyContent: X(V, U, S),
+      $nonBodyContent: x(V, U, S),
 
       /**
        * List of block elements, like "p" or "div".
@@ -374,7 +373,7 @@ iwo.register('dtd', ['mods/utils'], function(require) {
       /**
        * list of elements that can be children at &lt;body&gt;.
        */
-      $body: X({
+      $body: x({
         script: 1,
         style: 1
       }, block),
@@ -548,7 +547,7 @@ iwo.register('dtd', ['mods/utils'], function(require) {
       th: P,
       center: P,
       kbd: L,
-      button: X(I, E),
+      button: x(I, E),
       basefont: {},
       h5: L,
       h4: L,
@@ -559,7 +558,7 @@ iwo.register('dtd', ['mods/utils'], function(require) {
       h3: L,
       option: N,
       h2: L,
-      form: X(A, D, E, I),
+      form: x(A, D, E, I),
       select: {
         optgroup: 1,
         option: 1
@@ -606,7 +605,7 @@ iwo.register('dtd', ['mods/utils'], function(require) {
       strike: L,
       area: {},
       dir: Q,
-      map: X({
+      map: x({
         area: 1,
         form: 1,
         p: 1
@@ -618,7 +617,7 @@ iwo.register('dtd', ['mods/utils'], function(require) {
       },
       del: L,
       isindex: {},
-      fieldset: X({
+      fieldset: x({
         legend: 1
       }, K),
       thead: M,
@@ -632,11 +631,11 @@ iwo.register('dtd', ['mods/utils'], function(require) {
       u: L,
       tbody: M,
       s: L,
-      address: X(D, I),
+      address: x(D, I),
       tt: L,
       legend: L,
       q: L,
-      pre: X(G, C),
+      pre: x(G, C),
       p: L,
       em: L,
       dfn: L,
@@ -653,7 +652,7 @@ iwo.register('dtd', ['mods/utils'], function(require) {
       mark: L,
       time: L,
       meter: L,
-      menu: L,
+      //menu: L, //duplicate key
       command: L,
       keygen: L,
       output: L,
