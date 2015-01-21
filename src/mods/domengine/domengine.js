@@ -82,7 +82,7 @@ iwo.register('domengine', ['mods/utils'],function(require) {
       this.value = null;
       this.nodeName = name;
       this.name = name;
-      this.ownerElement = null
+      this.ownerElement = null;
 
       if (typeof name === 'string') {
         this.lowerCaseName = name.toLowerCase();
@@ -108,11 +108,11 @@ iwo.register('domengine', ['mods/utils'],function(require) {
 
     TextNode = function(str) {},
 
-    attributeProto = Attribute.prototype = new Document,
-    commentProto = Comment.prototype = new Document,
-    documentFragmentProto = DocumentFragment.prototype = new Document,
-    elementProto = Element.prototype = new Document,
-    textNodeProto = TextNode.prototype = new Document;
+    attributeProto = Attribute.prototype = new Document(),
+    commentProto = Comment.prototype = new Document(),
+    documentFragmentProto = DocumentFragment.prototype = new Document(),
+    elementProto = Element.prototype = new Document(),
+    textNodeProto = TextNode.prototype = new Document();
 
 
 
@@ -122,4 +122,4 @@ iwo.register('domengine', ['mods/utils'],function(require) {
   //test
   var div = DOM.createElement('div');
   console.info(div);
-})
+});
