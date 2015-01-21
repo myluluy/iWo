@@ -50,7 +50,7 @@ iwo.define('mods/dtd', [], function(require) {
         var args = arguments;
         defaults = defaults || {};
 
-        if (args.length == 2) {
+        if (args.length === 2) {
           defaults = m(defaults, settings);
         } else {
           for (var i = 1, len = args.length; i < len; i++) {

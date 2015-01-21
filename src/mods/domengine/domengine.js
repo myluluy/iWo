@@ -11,8 +11,8 @@ var attribute = 'mods/domengine/attribute',
   documentfragment = 'mods/domengine/documentfragment',
   element = 'mods/domengine/element',
   textnode = 'mods/domengine/textnode';
-
-iwo.define('mods/domengine/domengine', ['mods/utils', 'mods/dtd', attribute, comment, documentfragment, element, textnode], function(require) {
+  var deps = ['mods/utils', 'mods/dtd', attribute, comment, documentfragment, element, textnode];
+iwo.define('mods/domengine/domengine',deps , function(require) {
   var Attribute = require(attribute),
 
     Comment = require(comment),
@@ -42,12 +42,12 @@ iwo.define('mods/domengine/domengine', ['mods/utils', 'mods/dtd', attribute, com
       return new Element(name);
     },
 
-    createTextNode: function() {
-      return new Textnode;
+    createTextNode: function(text) {
+      return new Textnode(text);
     },
 
-    parseDom : function(HTMLString){
-    
+    parseDom: function(HTMLString) {
+
     }
 
   };

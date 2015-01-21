@@ -15,11 +15,15 @@ iwo.define('mods/domengine/element', ['mods/domengine/document', 'mods/utils', '
     this.tagName = name;
     this.nodeType = this.ELEMENT_NODE;
     this.parentNode = this.nextSibling = this.previousSibling = this.firstChild = this.lastChild = null;
-    this.parentBlockNode = this.nextBlockSibling = this.previousBlockSibling = this.firstBlockChild = this.lastBLockChild = null;
+    this.parentBlockNode = null;
+    this.nextBlockSibling = null;
+    this.previousBlockSibling = null;
+    this.firstBlockChild = null;
+    this.lastBLockChild = null;
     var attributes = [],
       property = [];
 
-  }
+  };
   Element.prototype = new Document();
 
   proto = Element.prototype;
@@ -40,9 +44,9 @@ iwo.define('mods/domengine/element', ['mods/domengine/document', 'mods/utils', '
 
   proto.removeChild = function() {};
 
-  proto.getElementById = function(id){};
-  
-  proto.html = function(){};
+  proto.getElementById = function(id) {};
+
+  proto.html = function() {};
 
 
   return Element;
