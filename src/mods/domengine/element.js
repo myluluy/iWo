@@ -64,9 +64,9 @@ iwo.define('mods/domengine/element', ['mods/domengine/document', 'mods/utils', '
 
   proto.prependChild = function(node) {
 
-    if (this.parentNode && this.parentNode == node || this == node) {
+    if (this.parentNode && this.parentNode === node || this === node) {
       //不能append父节点或自己本身
-      return null
+      return null;
     }
 
     if (node.parentNode) {
@@ -101,9 +101,9 @@ iwo.define('mods/domengine/element', ['mods/domengine/document', 'mods/utils', '
 
   proto.appendChild = function(node) {
 
-    if (this.parentNode && this.parentNode == node || this == node) {
+    if (this.parentNode && this.parentNode === node || this === node) {
       //不能append父节点或自己本身
-      return null
+      return null;
     }
 
     if (node.parentNode) {
@@ -123,8 +123,9 @@ iwo.define('mods/domengine/element', ['mods/domengine/document', 'mods/utils', '
 
     node.previousSibling = this.children[this.children.length - 1] || null;
 
-    if (node.previousSibling) {
-      node.previousBlockSibling = node.previousSibling.isBlock ? node.previousSibling : node.previousSibling.previousBlockSibling;
+    var prev = node.previousSibling;
+    if (prev) {
+      node.previousBlockSibling = prev.isBlock ? prev : prev.previousBlockSibling;
     }
 
 
@@ -146,7 +147,7 @@ iwo.define('mods/domengine/element', ['mods/domengine/document', 'mods/utils', '
     this.children.push(node);
 
 
-    if (this.children.length == 1) {
+    if (this.children.length === 1) {
 
       this.firstChild = node;
 
@@ -200,7 +201,7 @@ iwo.define('mods/domengine/element', ['mods/domengine/document', 'mods/utils', '
 
     if (prev) {
       prev.nextSibling = this.children[i + 1] || null;
-      prev.nextBlockSibling = node.nextBlockSibling
+      prev.nextBlockSibling = node.nextBlockSibling;
     }
 
     if (next) {
@@ -220,7 +221,7 @@ iwo.define('mods/domengine/element', ['mods/domengine/document', 'mods/utils', '
 
     node.block = {
       parentNode: null
-    }
+    };
   };
 
 
