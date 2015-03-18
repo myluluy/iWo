@@ -4,6 +4,6 @@
  * @fileoverview core for iwo
  */
 iwo.define('iwo.core', ['mods/domengine/domengine'], function(require) {
-  window.dom = require('mods/domengine/domengine');
+  var dom = require('mods/domengine/domengine');
   
 });
