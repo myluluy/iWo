@@ -90,10 +90,11 @@
     version: '0.0.1',
     core: 'iwo.core',
     run: utils.run,
-    define: utils.define
+    define: utils.define,
+    require : utils._r
   };
 
-  iwo.run(iwo.core);
+  //iwo.run(iwo.core);
 
 })(window, document);
 
