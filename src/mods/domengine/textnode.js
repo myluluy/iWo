@@ -6,14 +6,14 @@
  *
  * */
 
-iwo.define('mods/domengine/textnode', ['mods/domengine/document', 'mods/utils', 'mods/dtd'], function(require) {
-  var Document = require('mods/domengine/document');
+iwo.define('mods/domengine/textnode', ['mods/utils', 'mods/dtd'], function(require) {
 
   var Textnode = function(name) {
 
   };
-  Textnode.prototype = new Document();
+  
   proto = Textnode.prototype;
+
 
   return Textnode;
 });

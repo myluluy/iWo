@@ -6,9 +6,8 @@
  *
  * */
 
-iwo.define('mods/domengine/element', ['mods/domengine/document', 'mods/utils', 'mods/dtd'], function(require) {
+iwo.define('mods/domengine/element', ['mods/utils', 'mods/dtd'], function(require) {
 
-  var Document = require('mods/domengine/document');
 
   var dtd = require('mods/dtd');
 
@@ -37,8 +36,6 @@ iwo.define('mods/domengine/element', ['mods/domengine/document', 'mods/utils', '
     };
 
   };
-
-  Element.prototype = new Document();
 
 
   proto = Element.prototype;

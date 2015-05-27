@@ -7,50 +7,64 @@
  * */
 
 var attribute = 'mods/domengine/attribute',
-  comment = 'mods/domengine/comment',
-  documentfragment = 'mods/domengine/documentfragment',
-  element = 'mods/domengine/element',
-  textnode = 'mods/domengine/textnode';
-  var deps = ['mods/utils', 'mods/dtd', attribute, comment, documentfragment, element, textnode];
-iwo.define('mods/domengine/domengine',deps , function(require) {
-  var Attribute = require(attribute),
+    comment = 'mods/domengine/comment',
+    documentfragment = 'mods/domengine/documentfragment',
+    element = 'mods/domengine/element',
+    textnode = 'mods/domengine/textnode',
+    doc = 'mods/domengine/document';
+var deps = ['mods/utils', 'mods/dtd', attribute, comment, documentfragment, element, textnode, doc];
+iwo.define('mods/domengine/domengine', deps, function(require) {
+    var dtd = require('mods/dtd');
+    var typeList = {
+            Attribute: require(attribute),
 
-    Comment = require(comment),
+            Comment: require(comment),
 
-    DocumentFragment = require(documentfragment),
+            DocumentFragment: require(documentfragment),
 
-    Element = require(element),
+            Element: require(element),
 
-    Textnode = require(textnode);
+            TextNode: require(textnode)
+        },
 
 
-  var dom = {
+        Document = require(doc);
 
-    createAttribute: function(name) {
-      return new Attribute(name);
-    },
+    var proto = Document.prototype;
 
-    createComment: function(string) {
-      return new Comment(string);
-    },
-
-    createDocumentFragment: function() {
-      return new DocumentFragment();
-    },
-
-    createElement: function(name) {
-      return new Element(name);
-    },
-
-    createTextNode: function(text) {
-      return new Textnode(text);
-    },
-
-    parseDom: function(HTMLString) {
+    for (var t in typeList) {
+        var type = typeList[t];
+        (function(t) {
+            proto['create' + t] = function(param) {
+                return new Mod(this, t, param);
+            }
+        })(t)
 
     }
 
-  };
+    function Mod(doc, typeName, param) {
+        var node = new typeList[typeName](param);
+        node.nodeType = {
+            'Attribute': doc.ATTRIBUTE_NODE,
+            'Comment': doc.COMMENT_NODE,
+            'DocumentFragment': doc.DOCUMENT_FRAGMENT_NODE,
+            'Element': doc.ELEMENT_NODE,
+            'TextNode': doc.TEXT_NODE
+        }[typeName];
 
-  return dom;
+
+        if (node.nodeType != doc.TEXT_NODE) {
+            node.data = param;
+        } else {
+            node.parentNode = node.nextSibling = node.previousSibling = node.firstChild = node.lastChild = null;
+
+            node.nextBlockSibling = null;
+
+            node.previousBlockSibling = null;
+        }
+
+        return node;
+    }
+
+    return new Document();
 });

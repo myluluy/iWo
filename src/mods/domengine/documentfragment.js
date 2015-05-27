@@ -6,13 +6,11 @@
  *
  * */
 
-iwo.define('mods/domengine/documentfragment', ['mods/domengine/document', 'mods/utils', 'mods/dtd'], function(require) {
-  var Document = require('mods/domengine/document');
+iwo.define('mods/domengine/documentfragment', ['mods/utils', 'mods/dtd'], function(require) {
 
   var Documentfragment = function(name) {
   
   };
-  Documentfragment.prototype = new Document();
   proto = Documentfragment.prototype;
 
   return Documentfragment;

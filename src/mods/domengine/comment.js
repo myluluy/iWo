@@ -6,13 +6,10 @@
  *
  * */
 
-iwo.define('mods/domengine/comment', ['mods/domengine/document', 'mods/utils', 'mods/dtd'], function(require) {
-  var Document = require('mods/domengine/document');
-
+iwo.define('mods/domengine/comment', ['mods/utils', 'mods/dtd'], function(require) {
   var Comment = function(name) {
 
   };
-  Comment.prototype = new Document();
   proto = Comment.prototype;
 
   return Comment;

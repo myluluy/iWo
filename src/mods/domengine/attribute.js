@@ -6,8 +6,7 @@
  *
  * */
 
-iwo.define('mods/domengine/attribute', ['mods/domengine/document', 'mods/utils', 'mods/dtd'], function(require) {
-  var Document = require('mods/domengine/document');
+iwo.define('mods/domengine/attribute', ['mods/utils', 'mods/dtd'], function(require) {
 
   var Attribute = function(name) {
     this.nodeType = this.ATTRIBUTE_NODE;
@@ -22,7 +21,6 @@ iwo.define('mods/domengine/attribute', ['mods/domengine/document', 'mods/utils',
     }
 
   };
-  Attribute.prototype = new Document();
   proto = Attribute.prototype;
 
   return Attribute;

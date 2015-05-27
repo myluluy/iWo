@@ -8,8 +8,9 @@
 
 iwo.define('mods/domengine/document', [], function(require) {
   var Document = function() {
-
+  
   };
+
 
   Document.prototype = {
 
@@ -37,16 +38,9 @@ iwo.define('mods/domengine/document', [], function(require) {
 
     DOCUMENT_FRAGMENT_NODE: 11,
 
-    NOTATION_NODE: 12,
-
-    /**Methods**/
-    cloneNode : function(){},
-    
-    remove : function(){},
-
-    isSameNode : function(){},
-
+    NOTATION_NODE: 12
 
   };
+
   return Document;
 });
