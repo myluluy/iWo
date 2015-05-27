@@ -13,19 +13,7 @@ iwo.define('mods/domengine/element', ['mods/utils', 'mods/dtd'], function(requir
 
   var Element = function(name) {
 
-    this.isBlock = !!dtd.$block[name];
-
-    this.isInline = !!dtd.$inline[name];
-
-    this.tagName = name;
-
-    this.nodeType = this.ELEMENT_NODE;
-
-    this.parentNode = this.nextSibling = this.previousSibling = this.firstChild = this.lastChild = null;
-
-    this.nextBlockSibling = null;
-
-    this.previousBlockSibling = null;
+   
 
     this.children = [];
 

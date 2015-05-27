@@ -54,8 +54,19 @@ iwo.define('mods/domengine/domengine', deps, function(require) {
 
 
         if (node.nodeType != doc.TEXT_NODE) {
-            node.data = param;
-        } else {
+            
+            node.isBlock = !!dtd.$block[param];
+
+            node.isInline = !!dtd.$inline[param];
+
+            node.tagName = param;
+
+            node.parentNode = node.nextSibling = node.previousSibling = node.firstChild = node.lastChild = null;
+
+            node.nextBlockSibling = null;
+
+            node.previousBlockSibling = null;
+            
             node.parentNode = node.nextSibling = node.previousSibling = node.firstChild = node.lastChild = null;
 
             node.nextBlockSibling = null;
