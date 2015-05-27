@@ -134,7 +134,7 @@ iwo.define('mods/domengine/element', ['mods/domengine/document', 'mods/utils', '
     node.nextBlockSibling = null;
 
     if (node.previousSibling) {
-
+      
       node.previousSibling.nextSibling = node;
 
       if (node.isBlock) {
