@@ -38,7 +38,7 @@ iwo.define('mods/domengine/domengine', deps, function(require) {
             proto['create' + t] = function(param) {
                 return new Mod(this, t, param);
             }
-        })(t)
+        })(t);
 
     }
 

@@ -7,40 +7,53 @@
  * */
 
 iwo.define('mods/domengine/document', [], function(require) {
-  var Document = function() {
-  
-  };
+    var Document = function() {
+
+    };
 
 
-  Document.prototype = {
+    Document.prototype = {
 
-    contructor: Document,
+        contructor: Document,
 
-    ELEMENT_NODE: 1,
+        ELEMENT_NODE: 1,
 
-    ATTRIBUTE_NODE: 2,
+        ATTRIBUTE_NODE: 2,
 
-    TEXT_NODE: 3,
+        TEXT_NODE: 3,
 
-    CDATA_SECTION_NODE: 4,
+        CDATA_SECTION_NODE: 4,
 
-    ENTITY_REFERENCE_NODE: 5,
+        ENTITY_REFERENCE_NODE: 5,
 
-    ENTITY_NODE: 6,
+        ENTITY_NODE: 6,
 
-    PROCESSING_INSTRUCTION_NODE: 7,
+        PROCESSING_INSTRUCTION_NODE: 7,
 
-    COMMENT_NODE: 8,
+        COMMENT_NODE: 8,
 
-    DOCUMENT_NODE: 9,
+        DOCUMENT_NODE: 9,
 
-    DOCUMENT_TYPE_NODE: 10,
+        DOCUMENT_TYPE_NODE: 10,
 
-    DOCUMENT_FRAGMENT_NODE: 11,
+        DOCUMENT_FRAGMENT_NODE: 11,
 
-    NOTATION_NODE: 12
+        NOTATION_NODE: 12,
 
-  };
 
-  return Document;
+        getElementById : function(id){
+        
+        }
+
+    };
+
+    Document.__removeChild = function(parentNode, childNode) {};
+
+    Document.__appendChild = function(parentNode, childNode) {};
+
+    Document.__prependChild = function(parentNode,childNode){};
+
+    Document.__
+
+    return Document;
 });
